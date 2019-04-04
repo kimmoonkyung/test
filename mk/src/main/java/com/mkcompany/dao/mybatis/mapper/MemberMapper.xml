@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 맵핑할 Dao  -->
+<mapper namespace="com.mkcompany.dao.MemberDao">
+
+	<select id="memberList" resultType="com.mkcompany.dto.MemberVo">
+	
+		<include refid="pagingHeader"></include>
+		SELECT
+		   rownum, memNo, kor_Name, jumin_noF, jumin_noB, sex, tech_lev, job_type, desire_dept
+		FROM MEMBER m
+		<!-- WHERE 절 include 태그로 삽입 -->
+		<include refid="search"></include>
+		ORDER BY memNo desc
+		<include refid="pagingFooter"></include>
+		
+	</select>
+	
+	<!-- 레코드 갯수 -->
+	<select id="countArticle" resultType="int">
+		SELECT COUNT(*) FROM MEMBER
+		<include refid="search"></include>
+	</select>
+	
+	<!-- 검색 sql -->
+	<sql id="search">
+		<choose>
+			<!-- 검색옵션이 전체일 경우 -->
+			<when test="searchOption == 'all'">
+				WHERE kor_Name like '%'||#{keyword}||'%'
+				OR sex like '%'||#{keyword}||'%'
+				OR tech_lev like '%'||#{keyword}||'%' 
+			</when>
+			<!-- 전체 검색 아닐 경우 -->
+			<otherwise>
+				WHERE ${searchOption} like '%'||#{keyword}||'%' 
+			</otherwise>
+		</choose>
+	</sql>
+	
+	<!-- 페이징 SQL -->
+	<sql id="pagingHeader">
+		SELECT * FROM (
+			SELECT ROWNUM AS rn, A.* FROM (
+	</sql>
+	<sql id="pagingFooter">
+			) A
+		) WHERE rn BETWEEN #{start} AND #{end}
+	</sql>	
+	
+	<insert id="insertMember" parameterType="com.mkcompany.dto.MemberVo">
+		INSERT INTO MEMBER (
+                    memNo, kor_Name, eng_Name, chn_Name, jumin_noF, jumin_noB,
+                    image, birth1, birth2, birth3, sol_flag, sex, marry_flag,
+                    work_year, payment_type, desire_dept, job_type, address,
+                    phone1, phone2, phone3, email, tech_lev, liquor
+                    )
+		VALUES (
+		        MEMBER_SEQ.NEXTVAL, #{kor_Name}, #{eng_Name}, #{chn_Name}, #{jumin_noF}, #{jumin_noB}, 
+		        #{image}, #{birth1}, #{birth2}, #{birth3}, #{sol_flag}, #{sex}, #{marry_flag},
+		        #{work_year}, #{payment_type}, #{desire_dept}, #{job_type}, #{address},
+		        #{phone1}, #{phone2}, #{phone3}, #{email}, #{tech_lev}, #{liquor}
+		        )
+	</insert>
+
+	<select id="viewMember" resultType="com.mkcompany.dto.MemberVo">
+		SELECT * FROM MEMBER
+		WHERE memNo = #{memNo}
+	</select>
+	
+	<update id="updateMember" parameterType="com.mkcompany.dto.MemberVo">
+		UPDATE MEMBER SET
+			kor_Name = #{kor_Name},
+		    eng_Name = #{eng_Name},
+		    chn_Name = #{chn_Name},
+		    jumin_noF = #{jumin_noF},
+		    jumin_noB = #{jumin_noB},
+		    image = #{image},
+		    birth1 = #{birth1},
+		    birth2 = #{birth2},
+		    birth3 = #{birth3},
+		    sol_flag = #{sol_flag},
+		    sex = #{sex},
+		    marry_flag = #{marry_flag},
+		    work_year = #{work_year},
+		    payment_type = #{payment_type},
+		    desire_dept = #{desire_dept},
+		    job_type = #{job_type},
+		    address = #{address},
+		    phone1 = #{phone1},
+		    phone2 = #{phone2},
+		    phone3 = #{phone3},
+		    email = #{email},
+		    tech_lev = #{tech_lev},
+		    liquor = #{liquor}
+		WHERE memNo = #{memNo}
+	</update>
+	<delete id="deleteMember" parameterType="com.mkcompany.dto.MemberVo">
+		DELETE FROM MEMBER
+    	WHERE memNo = #{memNo}
+	</delete>
+	
+		
+</mapper>
