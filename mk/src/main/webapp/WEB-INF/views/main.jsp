@@ -41,15 +41,19 @@
 			} else if ( $(".list :first-child input[type=checkbox]:checked").length == 1 ) {
 				var memNo = $(".list :first-child input[type=checkbox]:checked").val();
 				//console.log(memNo);
-				$.ajax({
-					type: 'post',
-					data : {"memNo" : memNo},
-					url : '${path}/delete?memNo='+memNo,
-					success : function(result){
-						console.log("삭제완료");
-						location.href="${path}/main";
-					}
-				});
+				if(confirm("삭제하시겠습니까?")){
+					$.ajax({
+						type: 'post',
+						data : {"memNo" : memNo},
+						url : '${path}/delete?memNo='+memNo,
+						success : function(result){
+							console.log("삭제완료");
+							location.href="${path}/main";
+							alert("삭제했습니다.");
+						}
+					});
+				}
+				
 			} else {
 				alert("다중삭제 구현 예정");
 				return
@@ -63,12 +67,24 @@
 			$(".search").click();
 		});
 		
+		//전체선택 / 선택해제
+		$(".allCheck").click(function(e){
+			if( $(".allCheck").prop("checked") ){
+				$("input[name=chk]").prop("checked",true);
+				console.log("전체선택");
+			} else {
+				$("input[name=chk]").prop("checked", false);
+			}
+		});
+		
 	});
 	// 페이징 / 페이지 이동시 검색조건, 키워드 값 유지 위해
 	function main(page){
 		//console.log(page);
 		location.href="${path}/main?curPage="+page+"&searchOption=${map.searchOption}"+"&keyword=${map.keyword}";
 	};
+	
+	
 	
 </script>
 
@@ -120,9 +136,18 @@
                 <td>
 				<!-------------------------  리스트 ------------------------------>
 				<table class="list memberList" width="640" border="0" cellspacing="0" cellpadding="0">
+					<tr style="font-weight: bold;">
+						<td width="35" height="20" align="center"><input class="allCheck" type="checkbox" name="chk" value=""></td>
+						<td width="85" align="center">이름</td>
+						<td width="153" align="center">주민번호</td>
+						<td width="91" align="center">성별</td>
+						<td width="91" align="center">기술등급</td>
+						<td width="91" align="center">상태</td>
+						<td width="94" align="center">근무</td>
+					</tr>
 					<c:forEach var="mem" items="${map.list }">
                     <tr class="memberNode">
-						<td width="35" height="20" align="center"><input type="checkbox" name="checkbox" value="${mem.memNo }"></td>
+						<td width="35" height="20" align="center"><input class="" type="checkbox" name="chk" value="${mem.memNo }"></td>
 						<td width="85" align="center">${mem.kor_Name }</td>
 						<td width="153" align="center">${mem.jumin_noF }-${mem.jumin_noB }</td>
 						<td width="91" align="center">${mem.sex }</td>

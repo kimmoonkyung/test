@@ -24,9 +24,11 @@
 		//사원 수정 버튼
 		$(".btn-edit").click(function(e){
 			e.preventDefault();
-			$(".edit").click();
-			document.edit.action="${path}/edit";
-			document.edit.submit();
+			if(confirm("수정하시겠습니까?")){
+				$(".edit").click();
+				document.edit.action="${path}/edit";
+				document.edit.submit();
+			}
 		});
 		
 		//취소
@@ -172,7 +174,7 @@
                       <td bgcolor="#E4EBF1"><table width="526" border="0" cellspacing="1" cellpadding="1">
                           <tr> 
                             <td width="102" align="right"><strong>사진파일명 :&nbsp;</strong></td>
-                            <td width="268"><input class="file-name-view" readonly="readonly" value="${dto.image }" type="text"></td>
+                            <td width="268"><input class="file-name-view" readonly="readonly" name="imageName" value="${dto.image }" type="text"></td>
                             <td width="146">
                             	<input id="img-upload" type="file" class="file" name="file" onchange="getFileName(this,'all')" style="display: none;">
                             	<img class="btn-upload" style="cursor: pointer;" src="${path }/resources/image/bt_search.gif" width="49" height="18">

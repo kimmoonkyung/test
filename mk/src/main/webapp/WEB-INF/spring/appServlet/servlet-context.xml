@@ -35,12 +35,7 @@
 	<!-- 업로드된 파일의 저장 위치 지정 -->
 	<beans:bean id="uploadPath" class="java.lang.String">
 		<!-- 업로드 디렉토리 -->
-		<beans:constructor-arg value="C:\Users\mk\Documents\workspace-sts-3.9.8.RELEASE\mk\src\main\webapp\resources\upload"></beans:constructor-arg>
-	</beans:bean>
-	<!-- 업로드된 파일의 저장 위치 지정 -->
-	<beans:bean id="editPath" class="java.lang.String">
-		<!-- 업로드 디렉토리 -->
-		<beans:constructor-arg value="C:\Users\mk\Documents\workspace-sts-3.9.8.RELEASE\mk\src\main\webapp\resources\upload\edit"></beans:constructor-arg>
+		<beans:constructor-arg value="C:\Users\mk\git\test\mk\src\main\webapp\resources\upload"></beans:constructor-arg>
 	</beans:bean>
 	
 	<context:component-scan base-package="com.mkcompany.mkapp" />

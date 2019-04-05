@@ -17,7 +17,8 @@
 		//사원 등록 버튼
 		$(".btn-reg").click(function(e){
 			e.preventDefault();
-			$(".reg").click();
+			if(confirm("등록하시겠습니까?"))
+				$(".reg").click();
 		});
 		
 		$(".btn-cancel").click(function(e){

@@ -8,10 +8,12 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -114,27 +116,23 @@ public class HomeController {
 	}
 	//수정
 	@RequestMapping("edit")
-	public String edit(MultipartFile file, ModelAndView mav,
-							String address1, String address2,
+	public String edit(MultipartFile file, 
+							String address1, String address2, String imageName,
 							@RequestParam int memNo,
-							MemberVo member) throws Exception{
-
-		member= memberService.viewMember(memNo);
-		//System.out.println(member);
-		//System.out.println(member.getImage() + "^^^^^^^^^^^^");
+							@ModelAttribute MemberVo member) throws Exception{
+		
 		String savedName = file.getOriginalFilename();
-		//System.out.println("원래 파일명 : " + savedName + " ###");
+		
 		//랜덤 생성 + 파일이름 저장
 		//파일명 랜덤생성 메소드 호출
+		
 		if(savedName == "") {//( 정보 수정때 사진을 수정하지 않았다면 / 파일이 업로드 되지 않았다면)
-			member.setImage(member.getImage()); // 기존의 멤버 이미지명을 불러와서 set함
+			member.setImage(imageName); // 기존의 멤버 이미지명을 불러와서 set함
 			//System.out.println(member.getImage() + "&&&&&&&&&&");
-		} else { // 파일명이 null이 아니라면 ( 사진 수정을 했다면 _
+		} else { // 파일명이 null이 아니라면 ( 사진 수정을 했다면 )
 			savedName = uploadFile(savedName, file.getBytes());
 			member.setImage(savedName);
 		}
-		
-		//mav.setViewName("index");
 		
 		String address = address1 + " " + address2;
 		member.setAddress(address);
