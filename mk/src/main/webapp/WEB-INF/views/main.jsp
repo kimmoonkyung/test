@@ -55,11 +55,21 @@
 				}
 				
 			} else {
-				alert("다중삭제 구현 예정");
-				return
+				checklist();
+				//alert("다중삭제 구현 예정");
+				//return
 			}
 			
 		});
+		function checklist(){
+			$(".chk").each(function(){
+				var checkList = "";
+				if($(this).prop(":checked")== true){
+					checkList += $(this).val()+"번";
+				}
+			console.log(checkList);
+			});
+		}
 		
 		//검색
 		$(".searchBtn").click(function(e){
@@ -147,7 +157,7 @@
 					</tr>
 					<c:forEach var="mem" items="${map.list }">
                     <tr class="memberNode">
-						<td width="35" height="20" align="center"><input class="" type="checkbox" name="chk" value="${mem.memNo }"></td>
+						<td width="35" height="20" align="center"><input class="chk" type="checkbox" name="chk" value="${mem.memNo }"></td>
 						<td width="85" align="center">${mem.kor_Name }</td>
 						<td width="153" align="center">${mem.jumin_noF }-${mem.jumin_noB }</td>
 						<td width="91" align="center">${mem.sex }</td>
