@@ -45,5 +45,11 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.countArticle(searchOption, keyword);
 	}
 
+	@Override
+	public void deleteMember2(List<String> list) {
+		// TODO Auto-generated method stub
+		memberDao.deleteMember2(list);
+	}
+
 	
 }

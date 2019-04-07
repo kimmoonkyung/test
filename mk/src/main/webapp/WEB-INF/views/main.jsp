@@ -38,14 +38,16 @@
 			if( $(".list :first-child input[type=checkbox]:checked").length == 0 ){
 				alert("삭제할 직원을 선택해주세요.");
 				return
-			} else if ( $(".list :first-child input[type=checkbox]:checked").length == 1 ) {
+			} 
+			/*else if ( $(".list :first-child input[type=checkbox]:checked").length == 1 ) {
 				var memNo = $(".list :first-child input[type=checkbox]:checked").val();
 				//console.log(memNo);
 				if(confirm("삭제하시겠습니까?")){
 					$.ajax({
 						type: 'post',
 						data : {"memNo" : memNo},
-						url : '${path}/delete?memNo='+memNo,
+						//url : '${path}/delete?memNo='+memNo,
+						url : '${path}/delete',
 						success : function(result){
 							console.log("삭제완료");
 							location.href="${path}/main";
@@ -53,15 +55,43 @@
 						}
 					});
 				}
+			}*/ 
+			else {
+				//name, class =  chk
+				var obj = {};
 				
-			} else {
-				checklist();
+				$(".chk:checked").each(function(i, val) {
+					obj[i] = $(val).val();
+				});
+				if(confirm("삭제하시겠습니까?")){
+					$.ajax({
+						type : 'post',
+						data : JSON.stringify(obj),
+						dataType : 'text',
+						contentType: "application/json",
+						url : '${path}/delete2',
+						success : function(data) {
+							console.log(data);
+							location.href="${path}/main";
+							alert("삭제했습니다.");
+						}
+						/*error : function(request, status, error) {
+							console.log("code: " + request.status + "\n" + "message: " + request.respnseText + "\n" + "error : " + error);
+							alert("code: " + request.status + "\n" + "message: " + request.respnseText + "\n" + "error : " + error);
+							location.href="${path}/main";
+							alert("삭제했습니다.");
+						}*/
+					});
+				}
+				
+				
+				//checklist();
 				//alert("다중삭제 구현 예정");
 				//return
 			}
 			
 		});
-		function checklist(){
+		/*function checklist(){
 			$(".chk").each(function(){
 				var checkList = "";
 				if($(this).prop(":checked")== true){
@@ -69,7 +99,7 @@
 				}
 			console.log(checkList);
 			});
-		}
+		}*/
 		
 		//검색
 		$(".searchBtn").click(function(e){

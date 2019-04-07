@@ -67,6 +67,15 @@ public class MemberDaoImpl implements MemberDao {
 		
 		return sqlSession.selectOne(Namespace + ".countArticle", map);
 	}
+
+	@Override
+	public void deleteMember2(List<String> list) {
+		// TODO Auto-generated method stub
+		Map<String, List<String>> map = new HashMap<String, List<String>>();
+		map.put("aaa", list);
+		
+		sqlSession.delete(Namespace + ".deleteMember2", map);
+	}
 	
 	
 

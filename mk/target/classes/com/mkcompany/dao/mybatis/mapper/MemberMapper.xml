@@ -100,6 +100,14 @@
 		DELETE FROM MEMBER
     	WHERE memNo = #{memNo}
 	</delete>
+	<delete id="deleteMember2" parameterType="map">
+	
+		DELETE FROM MEMBER
+			WHERE
+			<foreach collection="aaa" item="memNo" separator="or">
+				memNo = #{memNo}			
+			</foreach>
+	</delete>
 	
 		
 </mapper>

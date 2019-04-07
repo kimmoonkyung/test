@@ -17,8 +17,74 @@
 		//사원 등록 버튼
 		$(".btn-reg").click(function(e){
 			e.preventDefault();
-			if(confirm("등록하시겠습니까?"))
+			
+			var korName = $(".kor"); // 이름 input
+			var engName = $(".eng"); // 영어이름 input
+			//주민번호 입력 정규식, 유효성 관련
+			var jumin1 = $(".juminF");
+			var jumin2 = $(".juminB");
+			var yy = jumin1.val().substr(0,2); // 년
+			var mm = jumin1.val().substr(2,2); // 월
+			var dd = jumin1.val().substr(4,2); // 일
+			var sex = jumin2.val().substr(0,1) // 성별
+			var ss, cc;
+			
+			var korNamePttn = /^[가-힣]{2,4}$/; //한글 유효성 패턴
+			var engNamePttn = /^[A-za-z]/g; //영문 유효성 패턴
+			var juminPttn = /^[0-9]*$/; // 주민 숫자 패턴
+			
+			//한국 이름 입력 체크
+			if(korName.val().length == 0){
+				alert("이름을 입력하세요.");
+				korName.focus();
+				return false;
+			} else if(!korNamePttn.test(korName.val())){
+				alert("2-4자의 정상적인 이름을 입력해주세요.");
+				korName.focus();
+				return false;
+			};
+			//영문 이름 입력 체크
+			if(engName.val().length == 0){
+				alert("영문 이름을 입력하세요.");
+				engName.focus();
+				return false;
+			} else if(!engNamePttn.test(engName.val())){
+				alert("영문 이름만 입력하실 수 있습니다.");
+				engName.focus();
+				return false;
+			}
+			
+			//주민번호 숫자입력 체크
+			if(jumin1.val().length == 0){
+				alert("주민번호 앞자리를 입력하세요.");
+				jumin1.focus();
+				return false;
+			} else if(!juminPttn.test(jumin1.val())){
+				alert("숫자로 입력해주세요.");
+				jumin1.focus();
+				return false;
+			}
+			if(jumin2.val().length == 0){
+				alert("주민번호 뒷자리를 입력하세요.");
+				jumin2.focus();
+				return false;
+			} else if(!juminPttn.test(jumin2.val())){
+				alert("숫자로 입력해주세요.");
+				jumin2.focus();
+				return false;
+			}
+			if( yy < 0 || yy > 99 || 
+				mm < 1 || mm > 12 || 
+				dd < 1 || dd > 31 ){
+				alert("주민번호 앞자리를 다시 입력하세요.");
+				jumin1.focus();
+				return false;
+			} 
+			
+			if(confirm("등록하시겠습니까?")){
 				$(".reg").click();
+			}
+				
 		});
 		
 		$(".btn-cancel").click(function(e){
@@ -125,22 +191,22 @@
                             <tr>
                               <td width="107" height="26" align="right"><strong>한글이름 :</strong>&nbsp;</td>
                               <td width="310" height="26">
-                                <input type="text" name="kor_Name">
+                                <input type="text" class="kor" name="kor_Name">
                               </td>
                             </tr>
                             <tr>
                               <td height="26" align="right"><strong>영문이름 :&nbsp;</strong></td>
-                              <td height="26"><input type="text" name="eng_Name"></td>
+                              <td height="26"><input type="text" class="eng" name="eng_Name"></td>
                             </tr>
                             <tr>
                               <td height="26" align="right"><strong>한문이름:</strong>&nbsp;</td>
-                              <td height="26"><input type="text" name="chn_Name"></td>
+                              <td height="26"><input type="text" class="chn" name="chn_Name"></td>
                             </tr>
                             <tr>
                               <td height="26" align="right"><strong>주민등록번호 :</strong>&nbsp;</td>
-                              <td height="26"><input name="jumin_noF" type="text" size="15">
+                              <td height="26"><input class="juminF" name="jumin_noF" type="text" size="15" maxlength="6">
       -
-        <input name="jumin_noB" type="text" size="15"></td>
+        <input class="juminB" name="jumin_noB" type="text" size="15" maxlength="7"></td>
                             </tr>
                           </table></td>
                         </tr>

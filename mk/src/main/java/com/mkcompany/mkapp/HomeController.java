@@ -1,6 +1,8 @@
 package com.mkcompany.mkapp;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,13 +10,13 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +24,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mkcompany.dto.MemberVo;
 import com.mkcompany.service.MemberPager;
 import com.mkcompany.service.MemberService;
@@ -55,8 +61,8 @@ public class HomeController {
 		MemberPager memberPager = new MemberPager(count, curPage);
 		int start = memberPager.getPageBegin();
 		int end = memberPager.getPageEnd();
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@ " + start);
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@ " + end);
+		//System.out.println("@@@@@@@@@@@@@@@@@@@@@@ " + start);
+		//System.out.println("@@@@@@@@@@@@@@@@@@@@@@ " + end);
 		
 		List<MemberVo> list = memberService.memberList(start, end, searchOption, keyword);
 		
@@ -161,6 +167,48 @@ public class HomeController {
 		memberService.deleteMember(memNo);
 		//return "index";
 	}
+	
+	@RequestMapping("delete2")
+	@ResponseBody
+	public void delete2(@RequestBody String a) throws JsonParseException, JsonMappingException, IOException {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		ObjectMapper om = new ObjectMapper();
+		
+		map = om.readValue(a, new TypeReference<Map<String, String>>() {
+		});
+		
+		List<String> list = new ArrayList<String>();
+		
+		for (int i = 0; i < map.size(); i++) {
+			list.add((String)map.get(""+i+""));
+		}
+		
+		System.out.println(list);
+		
+		memberService.deleteMember2(list);
+	}
+	
+	/*@SuppressWarnings("unchecked")
+    public static Map<String, Object> getMapFromJsonObject( JsonObject jsonObj )
+    {
+        Map<String, Object> map = null;
+        
+        try {
+            
+            map = new ObjectMapper().readValue(jsonObj.toJSONString(), Map.class) ;
+            
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+ 
+        return map;
+    }*/
 	
 	
 }

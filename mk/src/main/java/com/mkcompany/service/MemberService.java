@@ -21,5 +21,7 @@ public interface MemberService {
 	
 	//main.jsp에서 사용 할 멤버 삭제
 	public void deleteMember(int memNo);
+	public void deleteMember2(List<String> list);
 	
 }
+
