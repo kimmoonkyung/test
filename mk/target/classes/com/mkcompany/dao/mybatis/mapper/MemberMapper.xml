@@ -11,7 +11,7 @@
 		   rownum, memNo, kor_Name, jumin_noF, jumin_noB, sex, tech_lev, job_type, desire_dept
 		FROM MEMBER m
 		<!-- WHERE 절 include 태그로 삽입 -->
-		<include refid="search"></include>
+		<include refid="search2"></include>
 		ORDER BY memNo desc
 		<include refid="pagingFooter"></include>
 		
@@ -20,7 +20,7 @@
 	<!-- 레코드 갯수 -->
 	<select id="countArticle" resultType="int">
 		SELECT COUNT(*) FROM MEMBER
-		<include refid="search"></include>
+		<include refid="search2"></include>
 	</select>
 	
 	<!-- 검색 sql -->
@@ -37,6 +37,30 @@
 				WHERE ${searchOption} like '%'||#{keyword}||'%' 
 			</otherwise>
 		</choose>
+	</sql>
+	<!-- 다중검색 -->
+	<sql id="search2">
+		<if test="searchOption == 'all'">
+			WHERE kor_Name like '%'||#{keyword}||'%'
+			OR sex like '%'||#{keyword}||'%'
+			OR tech_lev like '%'||#{keyword}||'%' 
+		</if>
+		<if test="searchOption == 'kor_Name'">
+			WHERE kor_Name like '%'||#{keyword}||'%'
+		</if>
+		<if test="searchOption == 'sex'">
+			WHERE sex like '%'||#{keyword}||'%'
+		</if>
+		<if test="searchOption == 'tech_lev'">
+			WHERE tech_lev like '%'||#{keyword}||'%'
+		</if>
+		<if test="searchOption == 'man_tech'">
+			WHERE sex LIKE '%남자%' and tech_lev LIKE '%'||#{keyword}||'%' 
+		</if>
+		<if test="searchOption == 'girl_tech'">
+			WHERE sex LIKE '%여자%' and tech_lev LIKE '%'||#{keyword}||'%' 
+		</if>
+		
 	</sql>
 	
 	<!-- 페이징 SQL -->

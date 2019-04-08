@@ -149,6 +149,9 @@
               <option value="kor_Name" <c:out value="${map.searchOption == 'kor_Name'?'selected':''}"/>>::::: 이름 :::::</option>
               <option value="sex" <c:out value="${map.searchOption == 'sex'?'selected':''}"/>>::::: 성별 :::::</option>
               <option value="tech_lev" <c:out value="${map.searchOption == 'tech_lev'?'selected':''}"/>>::::: 기술등급 :::::</option>
+              <option value="man_tech" <c:out value="${map.searchOption == 'man_tech'?'selected':''}"/>>::: 남자-기술등급 :::</option>
+              <option value="girl_tech" <c:out value="${map.searchOption == 'girl_tech'?'selected':''}"/>>::: 여자-기술등급 :::</option>
+              
            </select> 
            <input name="keyword" type="text" value="${map.keyword }">
            <input class="search" type="submit" style="display: none;" >
