@@ -26,6 +26,11 @@ public class MemberServiceImpl implements MemberService {
 		memberDao.insertMember(vo);
 	}
 	@Override
+	public int juminChk(String useJumin) {
+		return memberDao.juminChk(useJumin);
+	}
+
+	@Override
 	public MemberVo viewMember(int memNo) {
 		return memberDao.viewMember(memNo);
 	}
@@ -51,5 +56,4 @@ public class MemberServiceImpl implements MemberService {
 		memberDao.deleteMember2(list);
 	}
 
-	
 }

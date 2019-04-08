@@ -82,7 +82,26 @@
 			} 
 			
 			if(confirm("등록하시겠습니까?")){
-				$(".reg").click();
+				$.ajax({
+					type : 'post',
+					url : '${path}/reg/juminChk',
+					data : {
+						"useJumin" : jumin1.val(),
+						"useJumin2" : jumin2.val()
+					},
+					success : function(data){
+						if($.trim(data)=="YES"){
+							console.log(data);
+							$(".reg").click();	
+						} else {
+							alert("등록되어있는 주민번호 입니다.");
+							jumin1.focus();
+							return false;
+						}
+					}
+				})
+				
+				//$(".reg").click();
 			}
 				
 		});

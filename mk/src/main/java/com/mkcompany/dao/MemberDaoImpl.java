@@ -38,6 +38,11 @@ public class MemberDaoImpl implements MemberDao {
 		// TODO Auto-generated method stub
 		sqlSession.insert(Namespace + ".insertMember", vo);
 	}
+	// 주민 중복확인
+	@Override
+	public int juminChk(String useJumin) {
+		return sqlSession.selectOne(Namespace + ".juminChk", useJumin);
+	}
 	
 	//수정 (view.jsp)
 	@Override
@@ -76,6 +81,10 @@ public class MemberDaoImpl implements MemberDao {
 		
 		sqlSession.delete(Namespace + ".deleteMember2", map);
 	}
+
+
+
+	
 	
 	
 

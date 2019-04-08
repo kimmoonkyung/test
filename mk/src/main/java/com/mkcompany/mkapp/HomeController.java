@@ -105,6 +105,23 @@ public class HomeController {
 		return mav;
 		
 	}
+	@RequestMapping("/reg/juminChk")
+	@ResponseBody
+	public String juminChk(String useJumin, String useJumin2) {
+		System.out.println("주민 중복체크 @@" + useJumin + " - " + useJumin2);
+		String str = "";
+		
+		int count = memberService.juminChk(useJumin);
+		System.out.println(count + "###############");
+		if(count >= 1) { // 1이상 이면 중복된다는것 
+			str = "NO";
+		} else if(count == 0) { // 0이 나오면 중복x 사용가능
+			str = "YES";
+		}
+		System.out.println(str + "%%%%%%%");
+		return str;
+	}
+	
 	//멤버 보기(수정) view + edit
 	@RequestMapping(value="view", method = RequestMethod.GET)
 	public ModelAndView view(@RequestParam int memNo,

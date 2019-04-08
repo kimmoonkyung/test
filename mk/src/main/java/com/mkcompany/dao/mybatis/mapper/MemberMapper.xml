@@ -87,6 +87,12 @@
 		        #{phone1}, #{phone2}, #{phone3}, #{email}, #{tech_lev}, #{liquor}
 		        )
 	</insert>
+	<!-- 주민 중복체크 -->
+	<select id="juminChk" parameterType="String" resultType="int">
+		SELECT COUNT(jumin_nof) FROM MEMBER
+	    <!-- WHERE jumin_nof = #{jumin_nof} -->
+	    WHERE jumin_nof = #{jumin_nof} and jumin_nob = #{jumin_nob}
+	</select>
 
 	<select id="viewMember" resultType="com.mkcompany.dto.MemberVo">
 		SELECT * FROM MEMBER
