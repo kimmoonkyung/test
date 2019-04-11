@@ -61,6 +61,8 @@
 				var obj = {};
 				
 				$(".chk:checked").each(function(i, val) {
+					console.log(i);
+					console.log(val);
 					obj[i] = $(val).val();
 				});
 				if(confirm("삭제하시겠습니까?")){

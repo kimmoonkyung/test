@@ -56,4 +56,10 @@ public class MemberServiceImpl implements MemberService {
 		memberDao.deleteMember2(list);
 	}
 
+	@Override
+	public int juminChk2(List<String> list) {
+		// TODO Auto-generated method stub
+		return memberDao.juminChk2(list);
+	}
+
 }

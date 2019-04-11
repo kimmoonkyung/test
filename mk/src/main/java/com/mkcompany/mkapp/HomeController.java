@@ -28,6 +28,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.mkcompany.dto.MemberVo;
 import com.mkcompany.service.MemberPager;
 import com.mkcompany.service.MemberService;
@@ -107,13 +108,22 @@ public class HomeController {
 	}
 	@RequestMapping("/reg/juminChk")
 	@ResponseBody
-	public String juminChk(String useJumin, String useJumin2) {
-		System.out.println("주민 중복체크 @@" + useJumin + " - " + useJumin2);
+	public String juminChk(@RequestBody Map<String, Object> useJumin) {
+		System.out.println("주민 중복체크 @@" + useJumin/* + " - " + useJumin2 */);
+		System.out.println(useJumin);
+//		Map<String, Object> map = new HashMap<String, Object>();
+		/*
+		 * map.put("useJumin", useJumin); System.out.println(map.get("useJumin") +
+		 * "$!@$!#!!#!$!@#!$!");
+		 */
+//		map.put("jumin", useJumin.get(0));
+//		map.put("jumin2", useJumin.get(1));
+		
 		String str = "";
 		
-		int count = memberService.juminChk(useJumin);
+		int count = 1;//memberService.juminChk(useJumin);
 		System.out.println(count + "###############");
-		if(count >= 1) { // 1이상 이면 중복된다는것 
+		if(count >= 1) { // 1이상 이면 중복된다는것
 			str = "NO";
 		} else if(count == 0) { // 0이 나오면 중복x 사용가능
 			str = "YES";
@@ -145,14 +155,13 @@ public class HomeController {
 							@ModelAttribute MemberVo member) throws Exception{
 		
 		String savedName = file.getOriginalFilename();
-		
-		//랜덤 생성 + 파일이름 저장
-		//파일명 랜덤생성 메소드 호출
-		
+
 		if(savedName == "") {//( 정보 수정때 사진을 수정하지 않았다면 / 파일이 업로드 되지 않았다면)
 			member.setImage(imageName); // 기존의 멤버 이미지명을 불러와서 set함
 			//System.out.println(member.getImage() + "&&&&&&&&&&");
 		} else { // 파일명이 null이 아니라면 ( 사진 수정을 했다면 )
+			//랜덤 생성 + 파일이름 저장
+			//파일명 랜덤생성 메소드 호출
 			savedName = uploadFile(savedName, file.getBytes());
 			member.setImage(savedName);
 		}
@@ -178,17 +187,10 @@ public class HomeController {
 		return savedName;
 	}
 	
-	@RequestMapping("delete")
-	@ResponseBody
-	public void delete(@RequestParam int memNo) {
-		memberService.deleteMember(memNo);
-		//return "index";
-	}
-	
 	@RequestMapping("delete2")
 	@ResponseBody
 	public void delete2(@RequestBody String a) throws JsonParseException, JsonMappingException, IOException {
-
+		System.out.println(a);
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		ObjectMapper om = new ObjectMapper();
@@ -206,26 +208,5 @@ public class HomeController {
 		
 		memberService.deleteMember2(list);
 	}
-	
-	/*@SuppressWarnings("unchecked")
-    public static Map<String, Object> getMapFromJsonObject( JsonObject jsonObj )
-    {
-        Map<String, Object> map = null;
-        
-        try {
-            
-            map = new ObjectMapper().readValue(jsonObj.toJSONString(), Map.class) ;
-            
-        } catch (JsonParseException e) {
-            e.printStackTrace();
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
- 
-        return map;
-    }*/
-	
 	
 }

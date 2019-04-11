@@ -85,10 +85,14 @@
 				$.ajax({
 					type : 'post',
 					url : '${path}/reg/juminChk',
-					data : {
+					dataType : 'text',
+					data : JSON.stringify({
 						"useJumin" : jumin1.val(),
 						"useJumin2" : jumin2.val()
-					},
+						/* "useJumin" : jumin1.val(),
+						"useJumin2" : jumin2.val() */
+					}),
+					contentType: "application/json; charset=utf-8",
 					success : function(data){
 						if($.trim(data)=="YES"){
 							console.log(data);

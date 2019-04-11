@@ -74,18 +74,29 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public void deleteMember2(List<String> list) {
-		// TODO Auto-generated method stub
-		Map<String, List<String>> map = new HashMap<String, List<String>>();
-		map.put("aaa", list);
-		
+	public void deleteMember2(List<String> list) { //삭제할 회원의 memNo를 list로 받아와서, (ex: [200, 199, 198 ...]
+		//System.out.println("다중삭제 dao의 매개변수 = " + list);
+		Map<String, List<String>> map = new HashMap<String, List<String>>(); // 키값 String value값 List로 HashMap 생성
+		map.put("deathnote", list); // deathnote라는 키값에 밸류로 list를 담음
+		/*for (int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i) + "ㅂㅂㅂㅂㅂㅂ");
+		}*/
 		sqlSession.delete(Namespace + ".deleteMember2", map);
+		//MemberMapper의 deleteMember2의 
+		//foreach 구문에서 collection을 deathnote로 설정하고 item(꺼내쓸 이름)을 memNo로 설정 separator(구분자)는 or
+		//결과 커리문 = DELETE FROM MEMBER WHERE memno = #{memNo} or memno = #{memNo};
 	}
 
-
-
-	
-	
-	
+	@Override
+	public int juminChk2(List<String> list) {
+		System.out.println(list);
+		Map<String, List<String>> map = new HashMap<String, List<String>>();
+		map.put("jumin", list);
+		System.out.println("맵키 jumin" + map.get("jumin"));
+		for (int i = 0; i < list.size(); i++) {
+			System.out.println("리스트 ("+ i + "(번째 : " + list.get(i));
+		}
+		return sqlSession.selectOne(Namespace + ".juminChk2", map);
+	}
 
 }
