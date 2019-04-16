@@ -40,9 +40,21 @@ public class MemberDaoImpl implements MemberDao {
 	}
 	// 주민 중복확인
 	@Override
+	public int juminChk(String jumin1, String jumin2) {
+
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("jumin1", jumin1);
+		map.put("jumin2", jumin2);
+		
+		int count = sqlSession.selectOne(Namespace + ".juminChk2", map);
+		
+		return count;
+		
+	}
+	/*@Override
 	public int juminChk(String useJumin) {
 		return sqlSession.selectOne(Namespace + ".juminChk", useJumin);
-	}
+	}*/
 	
 	//수정 (view.jsp)
 	@Override
@@ -85,18 +97,6 @@ public class MemberDaoImpl implements MemberDao {
 		//MemberMapper의 deleteMember2의 
 		//foreach 구문에서 collection을 deathnote로 설정하고 item(꺼내쓸 이름)을 memNo로 설정 separator(구분자)는 or
 		//결과 커리문 = DELETE FROM MEMBER WHERE memno = #{memNo} or memno = #{memNo};
-	}
-
-	@Override
-	public int juminChk2(List<String> list) {
-		System.out.println(list);
-		Map<String, List<String>> map = new HashMap<String, List<String>>();
-		map.put("jumin", list);
-		System.out.println("맵키 jumin" + map.get("jumin"));
-		for (int i = 0; i < list.size(); i++) {
-			System.out.println("리스트 ("+ i + "(번째 : " + list.get(i));
-		}
-		return sqlSession.selectOne(Namespace + ".juminChk2", map);
 	}
 
 }

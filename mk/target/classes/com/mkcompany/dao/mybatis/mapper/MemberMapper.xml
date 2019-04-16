@@ -88,18 +88,9 @@
 		        )
 	</insert>
 	<!-- 주민 중복체크 -->
-	<!-- <select id="juminChk" parameterType="String" resultType="int">
+	<select id="juminChk" resultType="int">
 		SELECT COUNT(jumin_nof) FROM MEMBER
-	    WHERE jumin_nof = #{jumin_nof}
-	    WHERE jumin_nof = #{jumin_nof} and jumin_nob = #{jumin_nob}
-	</select> -->
-	<select id="juminChk2" parameterType="String" resultType="int">
-		SELECT COUNT(jumin_nof) FROM MEMBER
-	    <!-- WHERE jumin_nof = #{jumin_nof} -->
-	    WHERE 
-	    <foreach collection="jumin" item="juminF">
-	    	jumin_nof = #{juminF} and jumin_nob = #{juminF}
-	    </foreach>
+		WHERE jumin_nof = #{jumin1} and jumin_nob = #{jumin2}
 	</select>
 
 	<select id="viewMember" resultType="com.mkcompany.dto.MemberVo">

@@ -26,9 +26,15 @@ public class MemberServiceImpl implements MemberService {
 		memberDao.insertMember(vo);
 	}
 	@Override
+	public int juminChk(String jumin1, String jumin2) {
+		// TODO Auto-generated method stub
+		return memberDao.juminChk(jumin1, jumin2);
+	}
+	/*@Override
 	public int juminChk(String useJumin) {
 		return memberDao.juminChk(useJumin);
-	}
+	}*/
+	
 
 	@Override
 	public MemberVo viewMember(int memNo) {
@@ -56,10 +62,5 @@ public class MemberServiceImpl implements MemberService {
 		memberDao.deleteMember2(list);
 	}
 
-	@Override
-	public int juminChk2(List<String> list) {
-		// TODO Auto-generated method stub
-		return memberDao.juminChk2(list);
-	}
 
 }

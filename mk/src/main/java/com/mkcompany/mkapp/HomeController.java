@@ -28,7 +28,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.mkcompany.dto.MemberVo;
 import com.mkcompany.service.MemberPager;
 import com.mkcompany.service.MemberService;
@@ -106,30 +107,27 @@ public class HomeController {
 		return mav;
 		
 	}
+	//주민등록 중복체크
 	@RequestMapping("/reg/juminChk")
 	@ResponseBody
-	public String juminChk(@RequestBody Map<String, Object> useJumin) {
-		System.out.println("주민 중복체크 @@" + useJumin/* + " - " + useJumin2 */);
-		System.out.println(useJumin);
-//		Map<String, Object> map = new HashMap<String, Object>();
-		/*
-		 * map.put("useJumin", useJumin); System.out.println(map.get("useJumin") +
-		 * "$!@$!#!!#!$!@#!$!");
-		 */
-//		map.put("jumin", useJumin.get(0));
-//		map.put("jumin2", useJumin.get(1));
+	public String juminChk(@RequestBody String jumin) {
+
+		JsonParser jsonParser = new JsonParser();
+		JsonObject jsonObject = (JsonObject) jsonParser.parse(jumin);
+		String jumin1 = jsonObject.get("jumin1").getAsString();
+		String jumin2 = jsonObject.get("jumin2").getAsString();
 		
 		String str = "";
 		
-		int count = 1;//memberService.juminChk(useJumin);
-		System.out.println(count + "###############");
+		int count = memberService.juminChk(jumin1, jumin2);
+		//System.out.println(count + "###############");
 		if(count >= 1) { // 1이상 이면 중복된다는것
 			str = "NO";
 		} else if(count == 0) { // 0이 나오면 중복x 사용가능
 			str = "YES";
 		}
-		System.out.println(str + "%%%%%%%");
-		return str;
+		//System.out.println(str + "%%%%%%%");
+		return str; //jsp로 리턴값 보냄
 	}
 	
 	//멤버 보기(수정) view + edit
@@ -210,3 +208,4 @@ public class HomeController {
 	}
 	
 }
+

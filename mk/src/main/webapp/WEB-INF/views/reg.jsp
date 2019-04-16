@@ -87,8 +87,8 @@
 					url : '${path}/reg/juminChk',
 					dataType : 'text',
 					data : JSON.stringify({
-						"useJumin" : jumin1.val(),
-						"useJumin2" : jumin2.val()
+						"jumin1" : jumin1.val(),
+						"jumin2" : jumin2.val()
 						/* "useJumin" : jumin1.val(),
 						"useJumin2" : jumin2.val() */
 					}),
@@ -96,7 +96,7 @@
 					success : function(data){
 						if($.trim(data)=="YES"){
 							console.log(data);
-							$(".reg").click();	
+							$(".reg").click();
 						} else {
 							alert("등록되어있는 주민번호 입니다.");
 							jumin1.focus();
@@ -104,8 +104,6 @@
 						}
 					}
 				})
-				
-				//$(".reg").click();
 			}
 				
 		});

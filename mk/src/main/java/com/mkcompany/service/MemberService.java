@@ -13,8 +13,8 @@ public interface MemberService {
 	
 	//reg.jsp에서 사용 할 멤버 등록
 	public void insertMember(MemberVo vo);
-	public int juminChk(String useJumin); //주민번호 중복 확인
-	public int juminChk2(List<String> list);
+	//public int juminChk(String useJumin); //주민번호 중복 확인
+	public int juminChk(String jumin1, String jumin2);
 	
 	//멤버 정보 보기(수정)
 	public MemberVo viewMember(int memNo);
