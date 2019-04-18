@@ -8,32 +8,37 @@
 <link href="${path }/resources/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <script type="text/javascript">
-
+	//birthauto함수의 매개변수 aa나  
+	//sexauto함수의 bb는 this.form으로 들어오기 때문에 
+	//합쳐서 써도 동작하는데 지저분해보여서 그냥 나눠놓음
 	//주민번호 앞자리 입력시 생년월일 자동입력
 	function birthauto(aa){
+		//console.log(aa);
 		var juminF = aa.jumin_noF.value;
 		var yy = juminF.substring(0,2);
 		var mm = juminF.substring(2,4);
 		var dd = juminF.substring(4,6);
+		var year = document.querySelector(".year");
+		var month = document.querySelector(".month");
+		var day = document.querySelector(".day");
+		
 		if(yy > 19)
 			yy = "19"+yy;	
 		else 
 			yy = "20"+yy;
 		
-		var year = document.querySelector(".year");
-		var month = document.querySelector(".month");
-		var day = document.querySelector(".day");
 		year.value = yy;
 		month.value = mm;
 		day.value = dd;
 	}
 	//주민번호 뒷자리 입력시 성별 자동 입력
 	function sexauto(bb){
+		//console.log(bb);
 		var juminB = bb.jumin_noB.value;
 		var backnum = juminB.substring(0,1); //주민번호첫번째뒷자리
 		var man = document.querySelector(".man");
 		var girl = document.querySelector(".girl");
-		console.log(sex);
+		
 		if(backnum == "1" || backnum == "3")
 			man.click();
 		else if (backnum =="2" || backnum == "4")
@@ -41,6 +46,18 @@
 	}
 	
 	$(document).ready(function(){
+		$(".nameChk").hide(); //이름 체크하는것 숨김
+		$(".kor").keyup(function(){
+			var korName = $(".kor");
+			var korNamePttn = /^[가-힣]{2,4}$/; //한글 유효성 패턴
+			if(korNamePttn.test(korName.val()))
+				$(".nameChk").hide();
+				//$(".nameChk").text("멋진 이름이군요.").css("color", "green");
+			else if(!korNamePttn.test(korName.val()))
+				$(".nameChk").show();
+				$(".nameChk").text("2-4자 사이의 한글 이름을 입력해주세요.").css("color", "red");
+		});
+		
 		//이미지 업로드 버튼
 		$(".btn-upload").click(function(e){
 			e.preventDefault();
@@ -73,7 +90,7 @@
 				alert("2-4자의 정상적인 이름을 입력해주세요.");
 				korName.focus();
 				return false;
-			};
+			} 
 			//영문 이름 입력 체크
 			if(engName.val().length == 0){
 				alert("영문 이름을 입력하세요.");
@@ -243,7 +260,7 @@
                             <tr>
                               <td width="107" height="26" align="right"><strong>한글이름 :</strong>&nbsp;</td>
                               <td width="310" height="26">
-                                <input type="text" class="kor" name="kor_Name">
+                                <input type="text" class="kor" name="kor_Name"> <label style="font-size: 9px; font-weight: bold;" class="nameChk"></label>
                               </td>
                             </tr>
                             <tr>
@@ -255,12 +272,10 @@
                               <td height="26"><input type="text" class="chn" name="chn_Name"></td>
                             </tr>
                             <tr>
-                            	<!-- <form> -->
 	                              <td height="26" align="right"><strong>주민등록번호 :</strong>&nbsp;</td>
 	                              <td height="26">
 	                              	<input onblur="birthauto(this.form)" class="juminF" name="jumin_noF" type="text" size="15" maxlength="6">
       									-
-        						<!-- </form> -->
         							<input onblur="sexauto(this.form)" class="juminB" name="jumin_noB" type="text" size="15" maxlength="7">
         							</td>
                             </tr>
@@ -312,9 +327,9 @@
                       <td bgcolor="#E4EBF1"><table width="500" border="0" cellspacing="1" cellpadding="1">
                           <tr> 
                             <td width="102" align="right"><strong>성별 :&nbsp; </strong></td>
-                            <td width="391"> <input id="sex" class="man" type="radio" name="sex" value="남자">
+                            <td width="391"> <input class="man" type="radio" name="sex" value="남자">
                               남자 
-                              <input id="sex" class="girl" type="radio" name="sex" value="여자">
+                              <input class="girl" type="radio" name="sex" value="여자">
                               여자</td>
                           </tr>
                         </table></td>
