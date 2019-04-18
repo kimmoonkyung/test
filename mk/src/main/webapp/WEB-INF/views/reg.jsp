@@ -8,6 +8,38 @@
 <link href="${path }/resources/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <script type="text/javascript">
+
+	//주민번호 앞자리 입력시 생년월일 자동입력
+	function birthauto(aa){
+		var juminF = aa.jumin_noF.value;
+		var yy = juminF.substring(0,2);
+		var mm = juminF.substring(2,4);
+		var dd = juminF.substring(4,6);
+		if(yy > 19)
+			yy = "19"+yy;	
+		else 
+			yy = "20"+yy;
+		
+		var year = document.querySelector(".year");
+		var month = document.querySelector(".month");
+		var day = document.querySelector(".day");
+		year.value = yy;
+		month.value = mm;
+		day.value = dd;
+	}
+	//주민번호 뒷자리 입력시 성별 자동 입력
+	function sexauto(bb){
+		var juminB = bb.jumin_noB.value;
+		var backnum = juminB.substring(0,1); //주민번호첫번째뒷자리
+		var man = document.querySelector(".man");
+		var girl = document.querySelector(".girl");
+		console.log(sex);
+		if(backnum == "1" || backnum == "3")
+			man.click();
+		else if (backnum =="2" || backnum == "4")
+			girl.click();
+	}
+	
 	$(document).ready(function(){
 		//이미지 업로드 버튼
 		$(".btn-upload").click(function(e){
@@ -27,7 +59,6 @@
 			var mm = jumin1.val().substr(2,2); // 월
 			var dd = jumin1.val().substr(4,2); // 일
 			var sex = jumin2.val().substr(0,1) // 성별
-			var ss, cc;
 			
 			var korNamePttn = /^[가-힣]{2,4}$/; //한글 유효성 패턴
 			var engNamePttn = /^[A-za-z]/g; //영문 유효성 패턴
@@ -79,7 +110,7 @@
 				alert("주민번호 앞자리를 다시 입력하세요.");
 				jumin1.focus();
 				return false;
-			} 
+			}
 			
 			if(confirm("등록하시겠습니까?")){
 				$.ajax({
@@ -224,10 +255,14 @@
                               <td height="26"><input type="text" class="chn" name="chn_Name"></td>
                             </tr>
                             <tr>
-                              <td height="26" align="right"><strong>주민등록번호 :</strong>&nbsp;</td>
-                              <td height="26"><input class="juminF" name="jumin_noF" type="text" size="15" maxlength="6">
-      -
-        <input class="juminB" name="jumin_noB" type="text" size="15" maxlength="7"></td>
+                            	<!-- <form> -->
+	                              <td height="26" align="right"><strong>주민등록번호 :</strong>&nbsp;</td>
+	                              <td height="26">
+	                              	<input onblur="birthauto(this.form)" class="juminF" name="jumin_noF" type="text" size="15" maxlength="6">
+      									-
+        						<!-- </form> -->
+        							<input onblur="sexauto(this.form)" class="juminB" name="jumin_noB" type="text" size="15" maxlength="7">
+        							</td>
                             </tr>
                           </table></td>
                         </tr>
@@ -260,11 +295,11 @@
                       <td bgcolor="#E4EBF1"><table width="500" border="0" cellspacing="1" cellpadding="1">
                           <tr> 
                             <td width="102" align="right"><strong>생년월일 :&nbsp;</strong></td>
-                            <td width="391"><input name="birth1" type="text" size="10">
+                            <td width="391"><input readonly="readonly" class="year" name="birth1" type="text" size="10">
                               년 
-                              <input name="birth2" type="text" size="7">
+                              <input readonly="readonly" class="month" name="birth2" type="text" size="7">
                               월 
-                              <input name="birth3" type="text" size="7">
+                              <input readonly="readonly" class="day" name="birth3" type="text" size="7">
                               일 ( 
                               <input type="radio" name="sol_flag" value="양력">
                               양력 
@@ -277,9 +312,9 @@
                       <td bgcolor="#E4EBF1"><table width="500" border="0" cellspacing="1" cellpadding="1">
                           <tr> 
                             <td width="102" align="right"><strong>성별 :&nbsp; </strong></td>
-                            <td width="391"> <input type="radio" name="sex" value="남자">
+                            <td width="391"> <input id="sex" class="man" type="radio" name="sex" value="남자">
                               남자 
-                              <input type="radio" name="sex" value="여자">
+                              <input id="sex" class="girl" type="radio" name="sex" value="여자">
                               여자</td>
                           </tr>
                         </table></td>

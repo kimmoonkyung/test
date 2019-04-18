@@ -111,22 +111,23 @@ public class HomeController {
 	@RequestMapping("/reg/juminChk")
 	@ResponseBody
 	public String juminChk(@RequestBody String jumin) {
-
+		System.out.println(jumin + "$$$$$$$$$$");
 		JsonParser jsonParser = new JsonParser();
 		JsonObject jsonObject = (JsonObject) jsonParser.parse(jumin);
 		String jumin1 = jsonObject.get("jumin1").getAsString();
 		String jumin2 = jsonObject.get("jumin2").getAsString();
-		
+		System.out.println(jumin1);
+		System.out.println(jumin2);
 		String str = "";
 		
 		int count = memberService.juminChk(jumin1, jumin2);
-		//System.out.println(count + "###############");
+		System.out.println(count + "###############");
 		if(count >= 1) { // 1이상 이면 중복된다는것
 			str = "NO";
 		} else if(count == 0) { // 0이 나오면 중복x 사용가능
 			str = "YES";
 		}
-		//System.out.println(str + "%%%%%%%");
+		System.out.println(str + "%%%%%%%");
 		return str; //jsp로 리턴값 보냄
 	}
 	

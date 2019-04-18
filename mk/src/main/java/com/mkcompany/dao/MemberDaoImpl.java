@@ -46,7 +46,7 @@ public class MemberDaoImpl implements MemberDao {
 		map.put("jumin1", jumin1);
 		map.put("jumin2", jumin2);
 		
-		int count = sqlSession.selectOne(Namespace + ".juminChk2", map);
+		int count = sqlSession.selectOne(Namespace + ".juminChk", map);
 		
 		return count;
 		
